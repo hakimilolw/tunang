@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amirul & Aimi's Engagement Invitation</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
+            background-color: #FEFCF3; /* A warmer, creamy white */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,9 +19,21 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            overflow: hidden; /* Hide scrollbars caused by off-screen elements */
+        }
+        /* Canvas for bee animation */
+        #bee-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind the card, but above the body background */
         }
         .card {
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent to see bees behind */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             max-width: 550px;
@@ -28,6 +42,8 @@
             text-align: center;
             animation: fadeIn 1s ease-out;
             border: 1px solid #f0f0f0;
+            position: relative; /* Ensure card is on top of the canvas */
+            z-index: 10;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -60,9 +76,10 @@
             padding: 25px;
             border: 1px solid #ffe8ed;
         }
+        /* Modal styles remain the same */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.4);
             display: flex; justify-content: center; align-items: center;
             z-index: 1000; opacity: 0; visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -81,11 +98,9 @@
             font-size: 1.5rem; cursor: pointer; color: #999;
         }
         .modal-input {
-            width: 100%; /* Changed for better alignment with labels */
-            padding: 12px;
+            width: 100%; padding: 12px;
             border: 1px solid #ddd; border-radius: 10px; font-size: 1rem;
-            outline: none;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            outline: none; box-sizing: border-box;
         }
         .modal-input:focus { border-color: #ff8fab; box-shadow: 0 0 0 3px rgba(255, 143, 171, 0.2); }
         .modal-button {
@@ -97,20 +112,55 @@
         }
         .message-box.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .message-box.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .input-group {
-            margin-bottom: 1rem;
-            text-align: left;
-        }
+        .input-group { margin-bottom: 1rem; text-align: left; }
         .input-label {
-            display: block;
-            margin-bottom: 0.25rem;
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: 500;
+            display: block; margin-bottom: 0.25rem; color: #666;
+            font-size: 0.9rem; font-weight: 500;
         }
+        
+        /* --- UPDATED FLOWER STYLES --- */
+        @keyframes pulse-flower {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .flower {
+            position: fixed;
+            width: 180px;
+            height: 180px;
+            z-index: 1;
+            opacity: 0.7;
+        }
+        .flower svg {
+            animation: pulse-flower 6s infinite ease-in-out;
+            width: 100%;
+            height: 100%;
+            transform-origin: 50% 50%;
+        }
+        .flower-top-left { top: -40px; left: -40px; }
+        .flower-top-right { top: -40px; right: -40px; }
+        .flower-bottom-left { bottom: -40px; left: -40px; }
+        .flower-bottom-right { bottom: -40px; right: -40px; }
     </style>
 </head>
 <body>
+    <!-- Decorative Flowers -->
+    <div class="flower flower-top-left">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g transform="translate(50,50)"><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(0)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(60)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(120)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(180)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(240)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(300)"/><circle cx="0" cy="0" r="12" fill="#FFD700"/></g></svg>
+    </div>
+    <div class="flower flower-top-right">
+       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g transform="translate(50,50)"><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(0)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(60)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(120)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(180)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(240)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(300)"/><circle cx="0" cy="0" r="12" fill="#FFD700"/></g></svg>
+    </div>
+    <div class="flower flower-bottom-left">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g transform="translate(50,50)"><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(0)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(60)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(120)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(180)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(240)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(300)"/><circle cx="0" cy="0" r="12" fill="#FFD700"/></g></svg>
+    </div>
+    <div class="flower flower-bottom-right">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g transform="translate(50,50)"><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(0)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(60)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(120)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(180)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(240)"/><ellipse cx="0" cy="-25" rx="15" ry="25" fill="#ffb6c1" transform="rotate(300)"/><circle cx="0" cy="0" r="12" fill="#FFD700"/></g></svg>
+    </div>
+
+    <!-- Bee Animation Canvas -->
+    <canvas id="bee-canvas"></canvas>
+
     <div class="card">
         <h1 class="text-dark-gray text-4xl sm:text-5xl font-cutesy mb-4">You're Invited!</h1>
         <p class="text-medium-gray text-base sm:text-lg mb-6">Join us as we celebrate the engagement of</p>
@@ -134,6 +184,7 @@
         <p class="text-medium-gray text-sm mt-8">With love,<br>Amirul & Aimi</p>
     </div>
 
+    <!-- RSVP Modal -->
     <div id="rsvpModal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-button" id="closeModalButton">×</button>
@@ -156,13 +207,120 @@
     </div>
 
     <script>
-        // Get elements
+        // --- BEE ANIMATION SCRIPT ---
+        const canvas = document.getElementById('bee-canvas');
+        const ctx = canvas.getContext('2d');
+        let bees = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Bee {
+            constructor() {
+                // --- UPDATED: Made bees bigger ---
+                this.size = Math.random() * 6 + 6; 
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.speedX = Math.random() * 2 - 1; // -1 to 1
+                this.speedY = Math.random() * 2 - 1; // -1 to 1
+                this.angle = 0;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.angle += 0.1;
+
+                // Bounce off edges
+                if (this.x > canvas.width + this.size || this.x < -this.size) {
+                    this.speedX *= -1;
+                }
+                if (this.y > canvas.height + this.size || this.y < -this.size) {
+                    this.speedY *= -1;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(Math.atan2(this.speedY, this.speedX));
+
+                // --- UPDATED: Cuter, rounder body ---
+                ctx.fillStyle = '#FFD700'; // Yellow
+                ctx.beginPath();
+                ctx.ellipse(0, 0, this.size, this.size / 1.2, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Stripes
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(-this.size / 1.5, -this.size / 2.5, this.size / 4, this.size / 1.25);
+                ctx.fillRect(0, -this.size / 2.5, this.size / 4, this.size / 1.25);
+
+                // --- NEW: Added cute eyes ---
+                ctx.fillStyle = 'black';
+                const eyePosX = this.size * 0.4;
+                const eyePosY = this.size * 0.2;
+                const eyeRadius = this.size * 0.08;
+                ctx.beginPath();
+                ctx.arc(eyePosX, -eyePosY, eyeRadius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(eyePosX, eyePosY, eyeRadius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Wings
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                const wingY = Math.sin(this.angle) * (this.size / 3); // Flap bigger
+                ctx.beginPath();
+                ctx.ellipse(-this.size / 3, -this.size / 2 + wingY, this.size / 1.8, this.size / 2.5, Math.PI / 4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(this.size / 3, -this.size / 2 + wingY, this.size / 1.8, this.size / 2.5, -Math.PI / 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        function initBees() {
+            bees = [];
+            // --- UPDATED: Fewer bees to compensate for larger size ---
+            let numberOfBees = (canvas.width * canvas.height) / 65000; 
+            if (numberOfBees > 15) numberOfBees = 15; // Max 15 bees
+            for (let i = 0; i < numberOfBees; i++) {
+                bees.push(new Bee());
+            }
+        }
+
+        function animateBees() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < bees.length; i++) {
+                bees[i].update();
+                bees[i].draw();
+            }
+            requestAnimationFrame(animateBees);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initBees();
+        });
+
+        // Initial setup
+        resizeCanvas();
+        initBees();
+        animateBees();
+
+
+        // --- RSVP MODAL SCRIPT ---
         const rsvpButton = document.getElementById('rsvpButton');
         const rsvpModal = document.getElementById('rsvpModal');
         const closeModalButton = document.getElementById('closeModalButton');
         const sendRsvpButton = document.getElementById('sendRsvpButton');
         const guestNameInput = document.getElementById('guestNameInput');
-        const guestCountInput = document.getElementById('guestCountInput'); // New input
+        const guestCountInput = document.getElementById('guestCountInput');
         const messageBox = document.getElementById('messageBox');
 
         function showMessage(message, type) {
@@ -184,10 +342,9 @@
         function hideModal() {
             rsvpModal.classList.remove('show');
             guestNameInput.value = '';
-            guestCountInput.value = '1'; // Reset count on close
+            guestCountInput.value = '1';
         }
 
-        // Event listeners
         rsvpButton.addEventListener('click', showModal);
         closeModalButton.addEventListener('click', hideModal);
         rsvpModal.addEventListener('click', (event) => {
@@ -196,12 +353,10 @@
             }
         });
 
-        // Event listener for sending RSVP
         sendRsvpButton.addEventListener('click', async () => {
             const guestName = guestNameInput.value.trim();
-            const guestCount = guestCountInput.value; // Get the guest count
+            const guestCount = guestCountInput.value;
 
-            // Updated validation
             if (!guestName || !guestCount || parseInt(guestCount, 10) < 1) {
                 showMessage('Please enter your name and a valid number of guests.', 'error');
                 return;
@@ -211,20 +366,15 @@
             sendRsvpButton.textContent = 'Sending...';
             hideMessage();
 
-            // --- Hardcoded Telegram Bot Details ---
             const BOT_TOKEN = '8104058263:AAFsFTuSslwL0zJBDT91NyS-4_1DIliUuo8';
             const CHAT_ID = '675538113';
-            
-            // --- UPDATED Message with Guest Count ---
-            const messageText = `🎉 New RSVP for Amirul & Aimi's Engagement!\n\n👤 Guest Name: ${guestName}\n👥 Number Attending: ${guestCount}\n\n🗓️ Date: 20/9/2025\n⏰ Time: 10:30 AM onwards`;
+            const messageText = `🎉 New RSVP for Amirul & Aimi's Engagement!\n\n👤 Guest Name: ${guestName}\n👥 Number Attending: ${guestCount}`;
             const telegramApiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
             try {
                 const response = await fetch(telegramApiUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         chat_id: CHAT_ID,
                         text: messageText,
@@ -239,7 +389,6 @@
                     const errorData = await response.json();
                     showMessage(`Failed to send RSVP: ${errorData.description}`, 'error');
                 }
-
             } catch (error) {
                 console.error('Error sending RSVP:', error);
                 showMessage('An error occurred. Please check your internet connection and try again.', 'error');
