@@ -11,7 +11,7 @@ const fetch = require('node-fetch');
 module.exports = async (req, res) => {
     // Set CORS headers to allow requests from your specific GitHub Pages domain.
     // This is crucial for resolving the 'Access-Control-Allow-Origin' error.
-    res.setHeader('Access-Control-Allow-Origin', 'https://hakimilolw.github.io'); // <--- UPDATED THIS LINE
+    res.setHeader('Access-Control-Allow-Origin', 'https://hakimilolw.github.io/tunang/'); // <--- UPDATED THIS LINE
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
