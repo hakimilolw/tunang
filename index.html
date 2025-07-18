@@ -9,17 +9,20 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        html {
+            height: 100%;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #FEFCF3; /* A warmer, creamy white */
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            align-items: flex-start; /* Changed to allow scrolling from top */
+            min-height: 100%;
             margin: 0;
-            padding: 20px;
+            padding: 5vh 20px; /* Added vertical padding */
             box-sizing: border-box;
-            overflow: hidden; /* Hide scrollbars caused by off-screen elements */
+            overflow-x: hidden; /* FIXED: Allow vertical scroll, prevent horizontal */
         }
         /* Canvas for bee animation */
         #bee-canvas {
@@ -118,7 +121,6 @@
             font-size: 0.9rem; font-weight: 500;
         }
         
-        /* --- UPDATED FLOWER STYLES --- */
         @keyframes pulse-flower {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -141,6 +143,17 @@
         .flower-top-right { top: -40px; right: -40px; }
         .flower-bottom-left { bottom: -40px; left: -40px; }
         .flower-bottom-right { bottom: -40px; right: -40px; }
+
+        @media (max-width: 600px) {
+            .flower {
+                width: 120px;
+                height: 120px;
+            }
+            .flower-top-left { top: -20px; left: -20px; }
+            .flower-top-right { top: -20px; right: -20px; }
+            .flower-bottom-left { bottom: -20px; left: -20px; }
+            .flower-bottom-right { bottom: -20px; right: -20px; }
+        }
     </style>
 </head>
 <body>
@@ -169,7 +182,7 @@
         <h2 class="text-soft-pink text-5xl sm:text-6xl font-cutesy mb-8">Aimi Athirah</h2>
 
         <div class="info-box mb-8">
-            <p class="text-dark-gray text-lg sm:text-xl font-medium mb-2">Date: <span class="text-soft-pink font-semibold">Friday, 20 September 2025</span></p>
+            <p class="text-dark-gray text-lg sm:text-xl font-medium mb-2">Date: <span class="text-soft-pink font-semibold">Saturday, 20 September 2025</span></p>
             <p class="text-dark-gray text-lg sm:text-xl font-medium mb-2">Time: <span class="text-soft-pink font-semibold">10:30 AM onwards</span></p>
             <p class="text-dark-gray text-lg sm:text-xl font-medium">Venue: <span class="text-soft-pink font-semibold">Lot 1376, Jalan Dato Pemaisuri</span></p>
         </div>
@@ -219,12 +232,11 @@
 
         class Bee {
             constructor() {
-                // --- UPDATED: Made bees bigger ---
                 this.size = Math.random() * 6 + 6; 
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.speedX = Math.random() * 2 - 1; // -1 to 1
-                this.speedY = Math.random() * 2 - 1; // -1 to 1
+                this.speedX = Math.random() * 2 - 1; 
+                this.speedY = Math.random() * 2 - 1; 
                 this.angle = 0;
             }
 
@@ -233,7 +245,6 @@
                 this.y += this.speedY;
                 this.angle += 0.1;
 
-                // Bounce off edges
                 if (this.x > canvas.width + this.size || this.x < -this.size) {
                     this.speedX *= -1;
                 }
@@ -246,19 +257,13 @@
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 ctx.rotate(Math.atan2(this.speedY, this.speedX));
-
-                // --- UPDATED: Cuter, rounder body ---
-                ctx.fillStyle = '#FFD700'; // Yellow
+                ctx.fillStyle = '#FFD700';
                 ctx.beginPath();
                 ctx.ellipse(0, 0, this.size, this.size / 1.2, 0, 0, Math.PI * 2);
                 ctx.fill();
-
-                // Stripes
                 ctx.fillStyle = '#000000';
                 ctx.fillRect(-this.size / 1.5, -this.size / 2.5, this.size / 4, this.size / 1.25);
                 ctx.fillRect(0, -this.size / 2.5, this.size / 4, this.size / 1.25);
-
-                // --- NEW: Added cute eyes ---
                 ctx.fillStyle = 'black';
                 const eyePosX = this.size * 0.4;
                 const eyePosY = this.size * 0.2;
@@ -269,26 +274,22 @@
                 ctx.beginPath();
                 ctx.arc(eyePosX, eyePosY, eyeRadius, 0, Math.PI * 2);
                 ctx.fill();
-
-                // Wings
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                const wingY = Math.sin(this.angle) * (this.size / 3); // Flap bigger
+                const wingY = Math.sin(this.angle) * (this.size / 3);
                 ctx.beginPath();
                 ctx.ellipse(-this.size / 3, -this.size / 2 + wingY, this.size / 1.8, this.size / 2.5, Math.PI / 4, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
                 ctx.ellipse(this.size / 3, -this.size / 2 + wingY, this.size / 1.8, this.size / 2.5, -Math.PI / 4, 0, Math.PI * 2);
                 ctx.fill();
-
                 ctx.restore();
             }
         }
 
         function initBees() {
             bees = [];
-            // --- UPDATED: Fewer bees to compensate for larger size ---
             let numberOfBees = (canvas.width * canvas.height) / 65000; 
-            if (numberOfBees > 15) numberOfBees = 15; // Max 15 bees
+            if (numberOfBees > 15) numberOfBees = 15;
             for (let i = 0; i < numberOfBees; i++) {
                 bees.push(new Bee());
             }
@@ -308,7 +309,6 @@
             initBees();
         });
 
-        // Initial setup
         resizeCanvas();
         initBees();
         animateBees();
@@ -368,7 +368,7 @@
 
             const BOT_TOKEN = '8104058263:AAFsFTuSslwL0zJBDT91NyS-4_1DIliUuo8';
             const CHAT_ID = '675538113';
-            const messageText = `🎉 New RSVP for Amirul & Aimi's Engagement!\n\n👤 Guest Name: ${guestName}\n👥 Number Attending: ${guestCount}`;
+            const messageText = `🎉 New RSVP for Amirul & Aimi's Engagement!\n\n👤 Guest Name: ${guestName}\n👥 Number Attending: ${guestCount}\n\n🗓️ Date: 20/9/2025\n⏰ Time: 10:30 AM onwards`;
             const telegramApiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
             try {
