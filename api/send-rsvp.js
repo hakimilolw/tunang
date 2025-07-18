@@ -11,13 +11,15 @@ const fetch = require('node-fetch');
 module.exports = async (req, res) => {
     // Set CORS headers to allow requests from your specific GitHub Pages domain.
     // This is crucial for resolving the 'Access-Control-Allow-Origin' error.
-    res.setHeader('Access-Control-Allow-Origin', 'https://hakimilolw.github.io'); // <--- UPDATED THIS LINE
+    res.setHeader('Access-Control-Allow-Origin', 'https://hakimilolw.github.io');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     // Handle preflight requests (OPTIONS method)
     if (req.method === 'OPTIONS') {
-        res.status(200).end();
+        // Explicitly send the headers and end the response for OPTIONS
+        // Using .send() instead of .end() to ensure headers are flushed.
+        res.status(200).send(); // Send an empty body with 200 OK and headers
         return;
     }
 
