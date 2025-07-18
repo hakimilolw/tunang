@@ -9,10 +9,9 @@ const fetch = require('node-fetch');
 
 // This is the main function that will be executed when your frontend sends a POST request.
 module.exports = async (req, res) => {
-    // Set CORS headers to allow requests from your frontend domain.
-    // Replace 'https://your-engagement-website.com' with the actual domain where your e-invite is hosted.
-    // For development, you might use '*' but for production, specify your exact domain.
-    res.setHeader('Access-Control-Allow-Origin', '*'); // IMPORTANT: Change '*' to your actual frontend domain in production
+    // Set CORS headers to allow requests from your specific GitHub Pages domain.
+    // This is crucial for resolving the 'Access-Control-Allow-Origin' error.
+    res.setHeader('Access-Control-Allow-Origin', 'https://hakimilolw.github.io'); // <--- UPDATED THIS LINE
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
