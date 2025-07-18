@@ -14,12 +14,12 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', 'https://hakimilolw.github.io');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight response for 24 hours
 
     // Handle preflight requests (OPTIONS method)
     if (req.method === 'OPTIONS') {
-        // Explicitly send the headers and end the response for OPTIONS
-        // Using .send() instead of .end() to ensure headers are flushed.
-        res.status(200).send(); // Send an empty body with 200 OK and headers
+        // Use 204 No Content for successful OPTIONS response, as it typically has no body.
+        res.status(204).end(); // End the response without a body
         return;
     }
 
