@@ -3,19 +3,7 @@
 const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
-    // Set CORS headers to allow requests from your specific GitHub Pages domain.
-    // THIS IS THE CORRECTED LINE:
-    res.setHeader('Access-Control-Allow-Origin', 'https://hakimilolw.github.io');
 
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Max-Age', '86400'); // Optional: Cache preflight response
-
-    // Handle preflight requests (OPTIONS method)
-    if (req.method === 'OPTIONS') {
-        res.status(204).end();
-        return;
-    }
 
     // Ensure the request method is POST
     if (req.method !== 'POST') {
